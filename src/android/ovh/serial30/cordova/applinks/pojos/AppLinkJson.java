@@ -29,7 +29,7 @@ public class AppLinkJson extends JSONObject {
         try {
             put(Const.JsonKeys.EVENT, jsEvent);
         } catch (JSONException e) {
-            Toast.makeText(AppLinksPlugin.APPCONTEXT, Const.ToastMSG.JS_SET_EVENT_NAME_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(AppLinksPlugin.getAppContext(), Const.ToastMSG.JS_SET_EVENT_NAME_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -67,7 +67,7 @@ public class AppLinkJson extends JSONObject {
             dataObject.put(Const.JsonKeys.PARAMS, getQueryParamsFromUri(originalUri));
             put(Const.JsonKeys.DATA, dataObject);
         } catch (JSONException e) {
-            Toast.makeText(AppLinksPlugin.APPCONTEXT, Const.ToastMSG.JS_SET_EVENT_DATA_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(AppLinksPlugin.getAppContext(), Const.ToastMSG.JS_SET_EVENT_DATA_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
         }
     }
 

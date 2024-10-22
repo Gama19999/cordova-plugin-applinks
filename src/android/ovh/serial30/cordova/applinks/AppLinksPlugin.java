@@ -33,7 +33,7 @@ public class AppLinksPlugin extends CordovaPlugin {
     private List<AppLinkHost> supportedHosts; // List of applink-hosts, defined in config.xml as <al-host />
     private Map<String, CallbackContext> subscribers; // List of JS subscribers
     private AppLinkJson jsonMessage; // AppLink json message, that is captured on application launch
-    private final Context APPCONTEXT;
+    private Context APPCONTEXT;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {

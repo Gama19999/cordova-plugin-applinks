@@ -56,13 +56,12 @@ public class AppLinksPlugin extends CordovaPlugin {
 
         // If app was launched by the AppLink url
         Uri launchUri = intent.getData(); // Retrieve intent URL
-        Toast.makeText(APPCONTEXT, Const.ToastMSG.URL_LAUNCH, Toast.LENGTH_SHORT).show();
 
-        // If app was not launched by the DeepLink url then ignore
+        // If app was not launched by the AppLink url then ignore
         if (!Intent.ACTION_VIEW.equals(intent.getAction()) || launchUri == null) {
             Toast.makeText(APPCONTEXT, Const.ToastMSG.APP_LAUNCH, Toast.LENGTH_SHORT).show();
             return;
-        }
+        } else Toast.makeText(APPCONTEXT, Const.ToastMSG.URL_LAUNCH, Toast.LENGTH_SHORT).show();
 
         // Try to find host in the applink-hosts list from the config.xml file
         AppLinkHost host = findAppLinkHostByUrl(launchUri);

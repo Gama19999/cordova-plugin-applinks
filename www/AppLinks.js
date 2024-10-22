@@ -114,6 +114,6 @@ const AppLinks = {
 };
 
 if (!window.plugins) window.plugins = {};
-window.plugins.appLinks = AppLinks;
+window.plugins.AppLinks = AppLinks;
 
 module.exports = AppLinks;

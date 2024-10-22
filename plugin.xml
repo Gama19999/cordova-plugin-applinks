@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="cordova-plugin-applinks" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- Plugin Information -->
+  <name>AppLinks</name>
+  <description>
+    Cordova plugin to attach to your application support for Universal Links (iOS 9) and Deep Links (Android),
+    adding capability to open your application through links in the browser
+    iOs is still under development. :|
+  </description>
+  <license>MIT</license>
+  <keywords>cordova,plugin,links,universal,deep,android,ios</keywords>
+  <repo>https://github.com/Gama19999/cordova-plugin-applinks.git</repo>
+  <issue>https://github.com/Gama19999/cordova-plugin-applinks/issues</issue>
+
+  <engines>
+    <engine name="cordova-ios" version=">=3.8"></engine>
+    <engine name="cordova-android" version=">=4"></engine>
+  </engines>
+
+  <!-- JavaScript Library Sources -->
+  <js-module src="www/AppLinks.js" name="AppLinks">
+    <clobbers target="AppLinks"/>
+  </js-module>
+  
+  <platform name="android">
+    <!-- Plugin inclusion in Cordova config.xml -->
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="AppLinks">
+        <param name="android-package" value="ovh.serial30.cordova.applinks.AppLinksPlugin"/>
+        <param name="onload" value="true"/>
+      </feature>
+    </config-file>
+    <!-- Java Library Sources -->
+    <!-- sources for package: ovh.serial30.cordova.applinks.constants -->
+    <source-file src="src/android/ovh/serial30/cordova/applinks/constants/Const.java" target-dir="src/ovh/serial30/cordova/applinks/constants/"/>
+    <!-- sources for package: ovh.serial30.cordova.applinks.pojos -->
+    <source-file src="src/android/ovh/serial30/cordova/applinks/pojos/AppLinkJson.java" target-dir="src/ovh/serial30/cordova/applinks/pojos/"/>
+    <source-file src="src/android/ovh/serial30/cordova/applinks/pojos/AppLinkHost.java" target-dir="src/ovh/serial30/cordova/applinks/pojos/"/>
+    <source-file src="src/android/ovh/serial30/cordova/applinks/pojos/AppLinkPath.java" target-dir="src/ovh/serial30/cordova/applinks/pojos/"/>
+    <!-- sources for package: ovh.serial30.cordova.applinks.parser -->
+    <source-file src="src/android/ovh/serial30/cordova/applinks/parser/AppLinkConfigXMLParser.java" target-dir="src/ovh/serial30/cordova/applinks/parser/"/>
+    <!-- sources for package: ovh.serial30.cordova.applinks -->
+    <source-file src="src/android/ovh/serial30/cordova/applinks/AppLinksPlugin.java" target-dir="src/ovh/serial30/cordova/applinks/"/>
+  </platform>
+
+  <!-- platform name="ios">
+    <hook src="hooks/iosBeforePrepareHook.js" type="before_prepare" />
+
+    <! Plugin inclusion in Cordova config.xml  >
+    <config-file parent="/*" target="config.xml">
+      <feature name="UniversalLinks">
+        <param name="ios-package" value="CULPlugin"/>
+        <param name="onload" value="true"/>
+      </feature>
+    </config-file>
+
+    <! Objective-C Sources >
+
+    <source-file src="src/ios/CULPlugin.m"/>
+    <header-file src="src/ios/CULPlugin.h"/>
+
+    <source-file src="src/ios/AppDelegate+CULPlugin.m"/>
+    <header-file src="src/ios/AppDelegate+CULPlugin.h"/>
+
+    <! sources for JS folder >
+    <source-file src="src/ios/JS/CDVPluginResult+CULPlugin.m" target-dir="JS/"/>
+    <header-file src="src/ios/JS/CDVPluginResult+CULPlugin.h" target-dir="JS/"/>
+
+    <source-file src="src/ios/JS/CDVInvokedUrlCommand+CULPlugin.m" target-dir="JS/"/>
+    <header-file src="src/ios/JS/CDVInvokedUrlCommand+CULPlugin.h" target-dir="JS/"/>
+
+    <! sources for Model folder >
+    <source-file src="src/ios/Model/CULHost.m" target-dir="Model/"/>
+    <header-file src="src/ios/Model/CULHost.h" target-dir="Model/"/>
+
+    <source-file src="src/ios/Model/CULPath.m" target-dir="Model/"/>
+    <header-file src="src/ios/Model/CULPath.h" target-dir="Model/"/>
+
+    <! sources for XML Parser folder >
+    <source-file src="src/ios/Parser/XML/CULXmlTags.m" target-dir="Parser/XML/"/>
+    <header-file src="src/ios/Parser/XML/CULXmlTags.h" target-dir="Parser/XML/"/>
+
+    <source-file src="src/ios/Parser/XML/CULConfigXmlParser.m" target-dir="Parser/XML/"/>
+    <header-file src="src/ios/Parser/XML/CULConfigXmlParser.h" target-dir="Parser/XML/"/>
+
+    <! sources for JSON Parser folder >
+    <source-file src="src/ios/Parser/JSON/CULConfigJsonParser.m" target-dir="Parser/JSON/"/>
+    <header-file src="src/ios/Parser/JSON/CULConfigJsonParser.h" target-dir="Parser/JSON/"/>
+
+    <! sources for Utils folder >
+    <source-file src="src/ios/Utils/NSBundle+CULPlugin.m" target-dir="Utils/"/>
+    <header-file src="src/ios/Utils/NSBundle+CULPlugin.h" target-dir="Utils/"/>
+  </platform -->
+
+</plugin>

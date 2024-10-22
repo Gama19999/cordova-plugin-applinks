@@ -1,0 +1,34 @@
+{
+    "name": "cordova-plugin-applinks",
+    "version": "1.0.0",
+    "description": "Cordova plugin to attach to your application support for Universal Links (iOS 9) and Deep Links (Android), adding capability to open your application through links in the browser. iOs is still under development. :|",
+    "cordova": {
+      "id": "cordova-plugin-applinks",
+      "platforms": [
+        "ios",
+        "android"
+      ]
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Gama19999/cordova-plugin-applinks.git"
+    },
+    "keywords": ["cordova","plugin","links","universal","deep","android","ios"],
+    "engines": {
+      "cordova-ios": ">=3.8",
+      "cordova-android": ">=4"
+    },
+    "dependencies": {},
+    "author": "Gamaliel Rios",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/Gama19999/cordova-plugin-applinks/issues"
+    },
+    "homepage": "https://github.com/Gama19999/cordova-plugin-applinks#readme",
+    "devDependencies": {
+      "standard-version": "^7.0.0"
+    },
+    "scripts": {
+      "release": "standard-version"
+    }
+  }

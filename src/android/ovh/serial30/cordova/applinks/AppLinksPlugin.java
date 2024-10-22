@@ -35,8 +35,6 @@ public class AppLinksPlugin extends CordovaPlugin {
     private AppLinkJson jsonMessage; // AppLink json message, that is captured on application launch
     private final Context APPCONTEXT;
 
-    public static Context getAppContext() { return APPCONTEXT; }
-
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -74,7 +72,7 @@ public class AppLinksPlugin extends CordovaPlugin {
         }
         
         // Store json message and try to consume it
-        jsonMessage = new AppLinkJson(host, launchUri);
+        jsonMessage = new AppLinkJson(host, launchUri, APPCONTEXT);
         tryToConsumeEvent();
     }
 

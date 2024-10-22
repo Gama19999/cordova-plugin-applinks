@@ -1,11 +1,11 @@
 package ovh.serial30.cordova.applinks.pojos;
 
+import android.content.Context;
 import android.net.Uri;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import ovh.serial30.cordova.applinks.AppLinksPlugin;
 import ovh.serial30.cordova.applinks.constants.Const;
 
 import java.util.List;
@@ -15,9 +15,11 @@ import java.util.List;
  * @author Gamaliel Rios
  */
 public class AppLinkJson extends JSONObject {
+    private Context appContext;
     private String jsEvent;
 
-    public AppLinkJson(AppLinkHost host, Uri originalUri) {
+    public AppLinkJson(AppLinkHost host, Uri originalUri, Context appContext) {
+        this.appContext = appContext;
         setPropertyJsEvent(host, originalUri);
         setMessageData(host, originalUri);
     }
@@ -29,7 +31,7 @@ public class AppLinkJson extends JSONObject {
         try {
             put(Const.JsonKeys.EVENT, jsEvent);
         } catch (JSONException e) {
-            Toast.makeText(AppLinksPlugin.getAppContext(), Const.ToastMSG.JS_SET_EVENT_NAME_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, Const.ToastMSG.JS_SET_EVENT_NAME_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -67,7 +69,7 @@ public class AppLinkJson extends JSONObject {
             dataObject.put(Const.JsonKeys.PARAMS, getQueryParamsFromUri(originalUri));
             put(Const.JsonKeys.DATA, dataObject);
         } catch (JSONException e) {
-            Toast.makeText(AppLinksPlugin.getAppContext(), Const.ToastMSG.JS_SET_EVENT_DATA_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, Const.ToastMSG.JS_SET_EVENT_DATA_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
         }
     }
 

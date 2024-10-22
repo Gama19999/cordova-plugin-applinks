@@ -11,7 +11,7 @@ const pluginNativeMethod = {
   UNSUBSCRIBE: 'unsubscribe'
 };
 
-const appLinks = {
+const AppLinks = {
     alLink: null,
     host: '',
     eventName: null,
@@ -114,6 +114,6 @@ const appLinks = {
 };
 
 if (!window.plugins) window.plugins = {};
-window.plugins.appLinks = appLinks;
+window.plugins.appLinks = AppLinks;
 
-module.exports = appLinks;
+module.exports = AppLinks;

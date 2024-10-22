@@ -1,5 +1,6 @@
 package ovh.serial30.cordova.applinks;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -18,6 +19,8 @@ import ovh.serial30.cordova.applinks.pojos.AppLinkHost;
 import ovh.serial30.cordova.applinks.pojos.AppLinkPath;
 import ovh.serial30.cordova.applinks.pojos.AppLinkJson;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,7 +39,7 @@ public class AppLinksPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         APPCONTEXT = cordova.getActivity();
-        supportedHosts = new DeepLinkConfigXMLParser(APPCONTEXT).parse();
+        supportedHosts = new AppLinkConfigXMLParser(APPCONTEXT).parse();
         if (subscribers == null) subscribers = new HashMap<String, CallbackContext>();
         handleIntent(cordova.getActivity().getIntent());
     }

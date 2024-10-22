@@ -18,7 +18,7 @@ public class AppLinkHost {
      public AppLinkHost(final String hostName, final String scheme, final String jsEvent) {
         this.hostName = hostName.toLowerCase();
         this.scheme = (scheme == null) ? "http" : scheme;
-        this.jsEvent = (jsEvent == null) ? Const.Events.DEFAULT_EVENT : event;
+        this.jsEvent = (jsEvent == null) ? Const.Events.DEFAULT_EVENT : jsEvent;
         this.paths = new ArrayList<AppLinkPath>();
     }
 

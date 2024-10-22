@@ -50,7 +50,7 @@ public class AppLinkJson extends JSONObject {
                 break;
             }
         }
-        return event;
+        return jsEvent;
     }
 
     /**

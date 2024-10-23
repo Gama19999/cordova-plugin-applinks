@@ -14,7 +14,7 @@ module.exports = function(ctx) {
   console.log('Installing dependency packages: ');
   console.log(JSON.stringify(pluginNpmDependencies, null, 2));
   let npm = (process.platform === "win32" ? "npm.cmd" : "npm");
-  let result = spawnSync(npm, ['install', '--production'], { cwd: './plugins/' + ctx.opts.plugin.id });
+  let result = spawnSync(npm, ['install', '--production'], { shell: true, cwd: './plugins/' + ctx.opts.plugin.id });
   if (result.error) throw result.error;
   createPluginInstalledFlag(ctx);
 };

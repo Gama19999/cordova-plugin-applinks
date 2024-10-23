@@ -1,4 +1,4 @@
-# Cordova AppLinks Plugin (v1.1.0)
+# Cordova AppLinks Plugin (v1.1.1)
 
 **NOTE:** This is a fork from the cordova plugin "cordova-plugin-deeplinks" which is a fork from the original cordova plugin "cordova-deeplinks" that in turn is a fork from "cordova-universal-links-plugin"
 
@@ -167,7 +167,7 @@ To handle all paths under a given hostname use the following configuration:
 
 
 
-#### Prevent Android from creating multiple app instances
+### Prevent Android from creating multiple app instances
 
 When clicking on a universal link from another App (typically from an email client), Android will likely create a new instance of your app, even if it is already loaded in memory. It may even create a new instance with each click, resulting in many instances of your app in the task switcher. See details in [issue #37](https://github.com/nordnet/cordova-universal-links-plugin/issues/37).
 
@@ -447,10 +447,9 @@ and the package name of your application is `com.example.applinks`, then `<head 
 
 ```html
 <head>
-<link rel="alternate" href="android-app://com.example.applinks/http/myhost.com/news/" />
-<link rel="alternate" href="android-app://com.example.applinks/http/myhost.com/profile/" />
-
-<!-- Your other stuff from the head tag -->
+   <link rel="alternate" href="android-app://com.example.applinks/http/myhost.com/news/" />
+   <link rel="alternate" href="android-app://com.example.applinks/http/myhost.com/profile/" />
+   <!-- Your other stuff from the head tag -->
 </head>
 ```
 

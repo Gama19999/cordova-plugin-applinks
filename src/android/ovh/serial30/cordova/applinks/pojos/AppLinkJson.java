@@ -26,8 +26,14 @@ public class AppLinkJson extends JSONObject {
 
     public String getJsEvent() { return jsEvent; }
 
-    public String getJsDataURL() throws JSONException { 
-        return getString(Const.JsonKeys.ORIGIN);
+    public String getJsDataURL() {
+        String url = null;
+        try {
+            url = getString(Const.JsonKeys.ORIGIN);
+        } catch (JSONException e) {
+            Toast.makeText(appContext, Const.ToastMSG.JS_GET_EVENT_DATA_URL_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
+        }
+        return url;
     }
 
     private void setPropertyJsEvent(AppLinkHost host, Uri originalUri) {

@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * DeepLinks cordova plugin main class
+ * AppLinks cordova plugin Java main class
  * Establishes communication between Java and JS sides, handles launch intents verifying if they are AppLinks or not and so on
  * @author Gamaliel Rios
  */

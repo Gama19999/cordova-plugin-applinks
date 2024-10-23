@@ -1,2 +1,9 @@
 # Old README
 bak.README.md
+
+# iOS AppLinks logic
+src/ios/*
+
+# iOS hook process
+hooks/iosBeforePrepareHook.js
+hooks/lib/ios

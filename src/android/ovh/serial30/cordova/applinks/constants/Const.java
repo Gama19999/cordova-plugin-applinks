@@ -11,7 +11,6 @@ public final class Const {
     }
     public interface Events {
         String DEFAULT_EVENT = "launchedAppFromAppLink";
-        String RESULT_LOAD = "result_load";
     }
     public interface JsonKeys {
         String EVENT = "event";

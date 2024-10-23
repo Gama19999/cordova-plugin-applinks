@@ -99,28 +99,21 @@ public class AppLinksPlugin extends CordovaPlugin {
      */
     private void tryToConsumeEvent() {
         if (subscribers.size() == 0 || jsonMessage == null) return;
-        requiresOpenInExternalBrowser(jsonMessage);
         final String storedEventName = jsonMessage.getJsEvent();
         final Set<Map.Entry<String, CallbackContext>> subscribersSet = subscribers.entrySet();
         for (Map.Entry<String, CallbackContext> subscriber : subscribersSet) {
             final String subscriberJsEvent = subscriber.getKey();
-            if (subscriberJsEvent.equals(storedEventName)) {
+            if (Const.Events.ON_EXTERNAL_BROWSER.equals(storedEventName)) {
+                String externalURL = jsonMessage.getJsDataURL();
+                sendMessageToJs(jsonMessage, subscriber.getValue());
+                jsonMessage = null;
+                // Try to open the link on external browser
+                ((AppCompatActivity) appContext).startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalURL)));
+            } else if (subscriberJsEvent.equals(storedEventName)) {
                 sendMessageToJs(jsonMessage, subscriber.getValue());
                 jsonMessage = null;
                 break;
             }
-        }
-    }
-
-    /**
-     * Try to open the link on external browser
-     */
-    private void requiresOpenInExternalBrowser(AppLinkJson jsonMessage) {
-        if (Const.Events.ON_EXTERNAL_BROWSER.equals(jsonMessage.getJsEvent())) {
-            String externalURL = jsonMessage.getJsDataURL();
-            sendMessageToJs(jsonMessage, subscriber.getValue());
-            jsonMessage = null;
-            ((AppCompatActivity) appContext).startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalURL)));
         }
     }
 

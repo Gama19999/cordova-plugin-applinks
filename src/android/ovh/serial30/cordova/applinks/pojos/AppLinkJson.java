@@ -26,6 +26,8 @@ public class AppLinkJson extends JSONObject {
 
     public String getJsEvent() { return jsEvent; }
 
+    public String getJsDataURL() { return getString(Const.JsonKeys.ORIGIN); }
+
     private void setPropertyJsEvent(AppLinkHost host, Uri originalUri) {
         jsEvent = getJSEventName(host, originalUri);
         try {

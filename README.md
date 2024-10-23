@@ -1,4 +1,4 @@
-# Cordova AppLinks Plugin (v1.1.1)
+# Cordova AppLinks Plugin (v1.2.0)
 
 **NOTE:** This is a fork from the cordova plugin "cordova-plugin-deeplinks" which is a fork from the original cordova plugin "cordova-deeplinks" that in turn is a fork from "cordova-universal-links-plugin"
 
@@ -37,6 +37,7 @@ It is important not only to redirect users to your app from the web, but also pr
 ## Documentation
 - [Installation](#installation)
 - [Cordova AppLinks preferences](#cordova-applinks-preferences)
+  - [Event onExternalBrowser](#event-onexternalbrowser)
 - [Prevent Android from creating multiple app instances](#prevent-android-from-creating-multiple-app-instances)
 - [JS integration to handle application launch](#js-integration-to-handle-application-launch)
 - [Usage examples](#usage-examples)
@@ -163,6 +164,33 @@ To handle all paths under a given hostname use the following configuration:
       <al-path url="*" />
     </al-host>
 </applinks>
+```
+
+
+
+### Event onExternalBrowser
+
+If you need to open a link on an external browser from inside your app use the custom JS event `onExternalBrowser` to make the plugin launch a new Android `Intent` to try to visit the URL the external browser.
+
+[!TIP]
+> This may be useful to **download** files with an in-app link directly from a website.
+
+To achieve this in the `config.xml` file specify the `onExternalBrowser` **event** attribute on the `<al-path />` tag, here is the example:
+
+```xml
+<applink>
+    <al-host name="example.com">
+      <al-path url="/path/to/open/on/external/browser" event="onExternalBrowser" />
+    </al-host>
+</applinks>
+```
+
+Then in your `www/js/index.js` file add call the `subscribe` plugin method and bind the `onExternalBrowser` JS event, here is the example:
+```js
+window.plugins.AppLinks.subscribe('onExternalBrowser', function (eventData) {
+  // do some work
+  console.log('Trying to open in external browser the URL: ' + eventData.url);
+});
 ```
 
 

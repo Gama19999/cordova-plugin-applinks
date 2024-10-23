@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -33,13 +34,13 @@ public class AppLinksPlugin extends CordovaPlugin {
     private List<AppLinkHost> supportedHosts; // List of applink-hosts, defined in config.xml as <al-host />
     private Map<String, CallbackContext> subscribers; // List of JS subscribers
     private AppLinkJson jsonMessage; // AppLink json message, that is captured on application launch
-    private Context APPCONTEXT;
+    private Context appContext;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        APPCONTEXT = cordova.getActivity();
-        supportedHosts = new AppLinkConfigXMLParser(APPCONTEXT).parse();
+        appContext = cordova.getActivity();
+        supportedHosts = new AppLinkConfigXMLParser(appContext).parse();
         if (subscribers == null) subscribers = new HashMap<String, CallbackContext>();
         handleIntent(cordova.getActivity().getIntent());
     }
@@ -59,19 +60,19 @@ public class AppLinksPlugin extends CordovaPlugin {
 
         // If app was not launched by the AppLink url then ignore
         if (!Intent.ACTION_VIEW.equals(intent.getAction()) || launchUri == null) {
-            Toast.makeText(APPCONTEXT, Const.ToastMSG.APP_LAUNCH, Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, Const.ToastMSG.APP_LAUNCH, Toast.LENGTH_SHORT).show();
             return;
-        } else Toast.makeText(APPCONTEXT, Const.ToastMSG.URL_LAUNCH, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(appContext, Const.ToastMSG.URL_LAUNCH, Toast.LENGTH_SHORT).show();
 
         // Try to find host in the applink-hosts list from the config.xml file
         AppLinkHost host = findAppLinkHostByUrl(launchUri);
         if (host == null) {
-            Toast.makeText(APPCONTEXT, Const.ToastMSG.UNKNOWN_HOST + launchUri.getHost(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, Const.ToastMSG.UNKNOWN_HOST + launchUri.getHost(), Toast.LENGTH_SHORT).show();
             return;
         }
         
         // Store json message and try to consume it
-        jsonMessage = new AppLinkJson(host, launchUri, APPCONTEXT);
+        jsonMessage = new AppLinkJson(host, launchUri, appContext);
         tryToConsumeEvent();
     }
 
@@ -98,6 +99,7 @@ public class AppLinksPlugin extends CordovaPlugin {
      */
     private void tryToConsumeEvent() {
         if (subscribers.size() == 0 || jsonMessage == null) return;
+        requiresOpenInExternalBrowser(jsonMessage);
         final String storedEventName = jsonMessage.getJsEvent();
         final Set<Map.Entry<String, CallbackContext>> subscribersSet = subscribers.entrySet();
         for (Map.Entry<String, CallbackContext> subscriber : subscribersSet) {
@@ -107,6 +109,18 @@ public class AppLinksPlugin extends CordovaPlugin {
                 jsonMessage = null;
                 break;
             }
+        }
+    }
+
+    /**
+     * Try to open the link on external browser
+     */
+    private void requiresOpenInExternalBrowser(AppLinkJson jsonMessage) {
+        if (Const.Events.ON_EXTERNAL_BROWSER.equals(jsonMessage.getJsEvent())) {
+            String externalURL = jsonMessage.getJsDataURL();
+            sendMessageToJs(jsonMessage, subscriber.getValue());
+            jsonMessage = null;
+            ((AppCompatActivity) appContext).startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalURL)));
         }
     }
 
@@ -163,7 +177,7 @@ public class AppLinksPlugin extends CordovaPlugin {
         try {
             jsEventName = arguments.getString(0);
         } catch (JSONException e) {
-            Toast.makeText(APPCONTEXT, Const.ToastMSG.JS_GET_EVENT_NAME_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, Const.ToastMSG.JS_GET_EVENT_NAME_ERR + "\n" + e, Toast.LENGTH_SHORT).show();
         }
         return jsEventName;
     }

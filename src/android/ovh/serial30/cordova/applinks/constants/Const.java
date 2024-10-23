@@ -11,6 +11,7 @@ public final class Const {
     }
     public interface Events {
         String DEFAULT_EVENT = "launchedAppFromAppLink";
+        String ON_EXTERNAL_BROWSER = "onExternalBrowser";
     }
     public interface JsonKeys {
         String EVENT = "event";

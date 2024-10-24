@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.IBinder;
 import android.widget.Toast;
 
 /**
@@ -16,6 +17,10 @@ import android.widget.Toast;
  * @author Gamaliel Rios
  */
 public class AppLinkDownloadService extends Service {
+    @Override
+    public IBinder onBind (Intent intent) {
+        super.onBind(intent);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

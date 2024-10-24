@@ -123,8 +123,8 @@ public class AppLinksPlugin extends CordovaPlugin {
         Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
         downloadIntent.setData(Uri.parse(jsonMessage.getJsDataURL()));
         appContext.startService(downloadIntent);
-        //sendMessageToJs(jsonMessage, subscriber.getValue());
-        //jsonMessage = null;
+        sendMessageToJs(jsonMessage, subscriber.getValue());
+        jsonMessage = null;
     }
 
     /**

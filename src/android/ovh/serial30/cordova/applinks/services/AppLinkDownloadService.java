@@ -20,6 +20,7 @@ import ovh.serial30.cordova.applinks.constants.Const;
  * @author Gamaliel Rios
  */
 public class AppLinkDownloadService extends Service {
+    public boolean isDownloading = false;
 
     public class AppLinkDownloadServiceBinder extends Binder {
         public AppLinkDownloadService getService() {
@@ -41,7 +42,7 @@ public class AppLinkDownloadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
-        downloadFile(intent.getData());
+        if (!isDownloading) downloadFile(intent.getData());
         return START_STICKY; // We want this service to continue running until it is explicitly stopped, so return 
     }
 
@@ -55,6 +56,7 @@ public class AppLinkDownloadService extends Service {
      * @param url URL to make the download request
      */
     private void downloadFile(Uri url) {
+        isDownloading = true;
         DownloadManager.Request request = new DownloadManager.Request(url);
         String fileName = url.getPathSegments().get(url.getPathSegments().size() - 1);
         request.setTitle("File: " + fileName);
@@ -74,6 +76,7 @@ public class AppLinkDownloadService extends Service {
         public void onReceive(Context context, Intent intent) {
             if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
                 AppLinkDownloadService.this.stopSelf();
+                AppLinkDownloadService.this.isDownloading = false;
                 Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
             }
         }

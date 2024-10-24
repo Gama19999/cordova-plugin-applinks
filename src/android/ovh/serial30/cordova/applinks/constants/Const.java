@@ -41,7 +41,7 @@ public final class Const {
         String JS_SET_EVENT_NAME_ERR = "Failed to set JS EvName";
         String JS_SET_EVENT_DATA_ERR = "Failed to set JS Data";
         String JS_GET_EVENT_DATA_URL_ERR = "Failed to set JS Data";
-        String DOWNLOAD_SERIVCE_CREATED = "Download service created!"
+        String DOWNLOAD_SERIVCE_CREATED = "Download service created!";
         String DOWNLOAD_START = "Download start!";
         String DOWNLOAD_COMPLETED = "Download completed!";
     }

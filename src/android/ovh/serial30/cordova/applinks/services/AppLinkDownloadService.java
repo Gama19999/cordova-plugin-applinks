@@ -7,9 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.widget.Toast;
+
+import ovh.serial30.cordova.applinks.constants.Const;
 
 /**
  * Android download service
@@ -17,9 +20,16 @@ import android.widget.Toast;
  * @author Gamaliel Rios
  */
 public class AppLinkDownloadService extends Service {
+
+    public class AppLinkDownloadServiceBinder extends Binder {
+        public AppLinkDownloadService getService() {
+            return AppLinkDownloadService.this;
+        }
+    }
+
     @Override
     public IBinder onBind (Intent intent) {
-        super.onBind(intent);
+        return new AppLinkDownloadServiceBinder();
     }
 
     @Override

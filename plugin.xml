@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="cordova-plugin-applinks" version="1.3.14" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-applinks" version="1.3.15" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
   <!-- Plugin Information -->
   <name>AppLinks</name>
   <description>
@@ -45,6 +45,7 @@
     <source-file src="src/android/ovh/serial30/cordova/applinks/pojos/AppLinkPath.java" target-dir="src/ovh/serial30/cordova/applinks/pojos/"/>
     <!-- sources for package: ovh.serial30.cordova.applinks.services -->
     <source-file src="src/android/ovh/serial30/cordova/applinks/services/AppLinkDownloadService.java" target-dir="src/ovh/serial30/cordova/applinks/services/"/>
+    <source-file src="src/android/ovh/serial30/cordova/applinks/services/AppLinkDownloadReciver.java" target-dir="src/ovh/serial30/cordova/applinks/services/"/>
     <!-- sources for package: ovh.serial30.cordova.applinks -->
     <source-file src="src/android/ovh/serial30/cordova/applinks/AppLinksPlugin.java" target-dir="src/ovh/serial30/cordova/applinks/"/>
   </platform>

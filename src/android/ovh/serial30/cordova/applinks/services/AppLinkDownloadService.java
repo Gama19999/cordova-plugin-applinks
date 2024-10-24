@@ -2,10 +2,8 @@ package ovh.serial30.cordova.applinks.services;
 
 import android.app.DownloadManager;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Environment;
@@ -70,21 +68,8 @@ public class AppLinkDownloadService extends Service {
         request.setDescription("Inn-App download...");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+        Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
         DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
-        Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
-        registerReceiver(new DonwloadCompleteReceiver(), new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }
-
-    /**
-     * Custom class that receives and handles intents of complete downloads
-     */
-    private class DonwloadCompleteReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
-                AppLinkDownloadService.this.stopSelf();
-            }
-        }
     }
 }

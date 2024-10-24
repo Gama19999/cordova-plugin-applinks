@@ -1,7 +1,9 @@
 package ovh.serial30.cordova.applinks;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -123,6 +125,14 @@ public class AppLinksPlugin extends CordovaPlugin {
         Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
         downloadIntent.setData(Uri.parse(jsonMessage.getJsDataURL()));
         appContext.startService(downloadIntent);
+        appContext.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
+                    context.stopService(new Intent(context, AppLinkDownloadService.class));
+                }
+            }
+        }, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         sendMessageToJs(jsonMessage, subscriber.getValue());
         jsonMessage = null;
     }

@@ -121,7 +121,7 @@ public class AppLinksPlugin extends CordovaPlugin {
      */
     private void downloadFile(Map.Entry<String, CallbackContext> subscriber) {
         Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
-        downloadIntent.setData(jsonMessage.getJsDataURL());
+        downloadIntent.setData(Uri.parse(jsonMessage.getJsDataURL()));
         appContext.startService(downloadIntent);
         sendMessageToJs(jsonMessage, subscriber.getValue());
         jsonMessage = null;

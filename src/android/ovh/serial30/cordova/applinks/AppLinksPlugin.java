@@ -19,6 +19,7 @@ import ovh.serial30.cordova.applinks.parser.AppLinkConfigXMLParser;
 import ovh.serial30.cordova.applinks.pojos.AppLinkHost;
 import ovh.serial30.cordova.applinks.pojos.AppLinkPath;
 import ovh.serial30.cordova.applinks.pojos.AppLinkJson;
+import ovh.serial30.cordova.applinks.services.AppLinkDownloadService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -103,18 +104,27 @@ public class AppLinksPlugin extends CordovaPlugin {
         final Set<Map.Entry<String, CallbackContext>> subscribersSet = subscribers.entrySet();
         for (Map.Entry<String, CallbackContext> subscriber : subscribersSet) {
             final String subscriberJsEvent = subscriber.getKey();
-            if (Const.Events.ON_EXTERNAL_BROWSER.equals(storedEventName)) {
-                String externalURL = jsonMessage.getJsDataURL();
-                sendMessageToJs(jsonMessage, subscriber.getValue());
-                jsonMessage = null;
-                // Try to open the link on external browser
-                ((AppCompatActivity) appContext).startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalURL)));
+            if (Const.Events.FILE_DOWNLOAD.equals(storedEventName)) {
+                downloadFile(subscriber);
+                break;
             } else if (subscriberJsEvent.equals(storedEventName)) {
                 sendMessageToJs(jsonMessage, subscriber.getValue());
                 jsonMessage = null;
                 break;
             }
         }
+    }
+
+    /**
+     * Tries to download the file
+     * @param subscriber Entry containing JSEventName as key and JSCallback as value
+     */
+    private void downloadFile(Map.Entry<String, CallbackContext> subscriber) {
+        Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
+        downloadIntent.setData(jsonMessage.getJsDataURL());
+        appContext.startService(downloadIntent);
+        sendMessageToJs(jsonMessage, subscriber.getValue());
+        jsonMessage = null;
     }
 
     /**

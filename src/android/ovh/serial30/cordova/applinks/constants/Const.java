@@ -11,7 +11,7 @@ public final class Const {
     }
     public interface Events {
         String DEFAULT_EVENT = "launchedAppFromAppLink";
-        String ON_EXTERNAL_BROWSER = "onExternalBrowser";
+        String FILE_DOWNLOAD = "fileDownload";
     }
     public interface JsonKeys {
         String EVENT = "event";
@@ -41,5 +41,7 @@ public final class Const {
         String JS_SET_EVENT_NAME_ERR = "Failed to set JS EvName";
         String JS_SET_EVENT_DATA_ERR = "Failed to set JS Data";
         String JS_GET_EVENT_DATA_URL_ERR = "Failed to set JS Data";
+        String DOWNLOAD_START = "Download start!";
+        String DOWNLOAD_COMPLETED = "Download completed!";
     }
 }

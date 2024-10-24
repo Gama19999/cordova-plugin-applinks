@@ -1,11 +1,11 @@
-# Cordova AppLinks Plugin (v1.2.4)
+# Cordova AppLinks Plugin (v1.3.0)
 
 **NOTE:** This is a fork from the cordova plugin "cordova-plugin-deeplinks" which is a fork from the original cordova plugin "cordova-deeplinks" that in turn is a fork from "cordova-universal-links-plugin"
 
 This Cordova plugin adds support for opening an application from the browser when user clicks on the link, better known as:
 - [Universal Links on iOS](https://developer.apple.com/library/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
 - [Deep Linking on Android](https://developer.android.com/training/app-indexing/deep-linking.html)
-to implement fucntionality so you can have a single link that will either open your app or your website, if the app isn't installed.
+to implement functionality so you can have a single link that will either open your app or your website, if the app isn't installed.
 
 
 
@@ -37,7 +37,7 @@ It is important not only to redirect users to your app from the web, but also pr
 ## Documentation
 - [Installation](#installation)
 - [Cordova AppLinks preferences](#cordova-applinks-preferences)
-  - [Event onExternalBrowser](#event-onexternalbrowser)
+  - [Event fileDownload](#event-fileDownload)
 - [Prevent Android from creating multiple app instances](#prevent-android-from-creating-multiple-app-instances)
 - [JS integration to handle application launch](#js-integration-to-handle-application-launch)
 - [Usage examples](#usage-examples)
@@ -74,7 +74,7 @@ Those preferences are specified inside the `<applink>` block. For example:
 </applink>
 ```
 
-In it you define hosts and paths that application should handle. You can have as many hosts and paths as you like.
+In it, you define hosts and paths that application should handle. You can have as many hosts and paths as you like.
 
 ### `<al-host />` tag
 The tag `<al-host />` lets you describe hosts, that your application supports. It can have three attributes:
@@ -168,28 +168,28 @@ To handle all paths under a given hostname use the following configuration:
 
 
 
-### Event onExternalBrowser
+### Event fileDownload
 
-If you need to open a link on an external browser from inside your app use the custom JS event `onExternalBrowser` to make the plugin launch a new Android `Intent` to try to visit the URL the external browser.
+If you need to download a file from inside your app use the custom JS event `fileDownload` to make the plugin handle the download process from the given URL.
 
 [!TIP]
-> This may be useful to **download** files with an in-app link directly from a website.
+> Useful to **download** files with an in-app link directly from a website
 
-To achieve this in the `config.xml` file specify the `onExternalBrowser` **event** attribute on the `<al-path />` tag, here is the example:
+To achieve this in the `config.xml` file add the `<al-host />` tag and the `name` attribute with the hostname to request the download, furthermore, specify the `fileDownload` **event** attribute on the `<al-path />` tag. Here is the example:
 
 ```xml
 <applink>
-    <al-host name="example.com">
-      <al-path url="/path/to/open/on/external/browser" event="onExternalBrowser" />
+    <al-host name="domain-to-request-download.com">
+      <al-path url="/path/to/file/to/download" event="fileDownload" />
     </al-host>
 </applinks>
 ```
 
-Then in your `www/js/index.js` file add call the `subscribe` plugin method and bind the `onExternalBrowser` JS event, here is the example:
+Then in your `www/js/index.js` file add call the `subscribe` plugin method and bind the `fileDownload` JS event, here is the example:
 ```js
-window.plugins.AppLinks.subscribe('onExternalBrowser', function (eventData) {
+window.plugins.AppLinks.subscribe('fileDownload', function (eventData) {
   // do some work
-  console.log('Trying to open in external browser the URL: ' + eventData.url);
+  console.log('Trying to download a file from given URL: ' + eventData.url);
 });
 ```
 

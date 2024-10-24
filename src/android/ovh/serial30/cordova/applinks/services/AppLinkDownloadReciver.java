@@ -9,7 +9,7 @@ public class AppLinkDownloadReciver extends BroadcastReceiver {
     private Context appContext;
     private Intent serviceIntent;
 
-    public DownloadReciver(Context appContext, Intent serviceIntent) {
+    public AppLinkDownloadReciver(Context appContext, Intent serviceIntent) {
         this.appContext = appContext;
         this.serviceIntent = serviceIntent;
     }

@@ -33,6 +33,12 @@ public class AppLinkDownloadService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        Toast.makeText(this, Const.ToastMSG.DOWNLOAD_SERIVCE_CREATED, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
         downloadFile(intent.getData());
@@ -67,8 +73,8 @@ public class AppLinkDownloadService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
-                Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
                 AppLinkDownloadService.this.stopSelf();
+                Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
             }
         }
     }

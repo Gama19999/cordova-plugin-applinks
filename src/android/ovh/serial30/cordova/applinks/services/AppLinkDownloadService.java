@@ -56,7 +56,7 @@ public class AppLinkDownloadService extends Service {
         super.onDestroy();
         isDownloading = false;
         isServiceRunning = true;
-        Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
     }
 
     /**

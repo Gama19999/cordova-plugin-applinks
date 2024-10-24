@@ -6,18 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 
 public class AppLinkDownloadReciver extends BroadcastReceiver {
-    private Context appConext;
+    private Context appContext;
     private Intent serviceIntent;
 
     public DownloadReciver(Context appContext, Intent serviceIntent) {
-        this.appConext = appConext;
+        this.appContext = appContext;
         this.serviceIntent = serviceIntent;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
-            appConext.stopService(serviceIntent);
+            appContext.stopService(serviceIntent);
         }
     }
 }

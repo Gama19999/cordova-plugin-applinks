@@ -44,15 +44,19 @@ public class AppLinkDownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
-        if (isServiceRunning && !isDownloading) downloadFile(intent.getData());
+        if (isServiceRunning && !isDownloading) {
+            isDownloading = true;
+            downloadFile(intent.getData());
+        }
         return START_NOT_STICKY; // We want this service to continue running until it is explicitly stopped, so return 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        isDownloading = false;
         isServiceRunning = true;
+        Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -60,7 +64,6 @@ public class AppLinkDownloadService extends Service {
      * @param url URL to make the download request
      */
     private void downloadFile(Uri url) {
-        isDownloading = true;
         DownloadManager.Request request = new DownloadManager.Request(url);
         String fileName = url.getPathSegments().get(url.getPathSegments().size() - 1);
         request.setTitle("File: " + fileName);
@@ -69,6 +72,7 @@ public class AppLinkDownloadService extends Service {
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
         DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
+        Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
         registerReceiver(new DonwloadCompleteReceiver(), new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
@@ -80,8 +84,6 @@ public class AppLinkDownloadService extends Service {
         public void onReceive(Context context, Intent intent) {
             if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
                 AppLinkDownloadService.this.stopSelf();
-                AppLinkDownloadService.this.isDownloading = false;
-                Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
             }
         }
     }

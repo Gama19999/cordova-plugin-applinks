@@ -3,11 +3,9 @@ package ovh.serial30.cordova.applinks;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -123,12 +121,22 @@ public class AppLinksPlugin extends CordovaPlugin {
      * @param subscriber Entry containing JSEventName as key and JSCallback as value
      */
     private void downloadFile(Map.Entry<String, CallbackContext> subscriber) {
-        Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
+        /*Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
         downloadIntent.setData(Uri.parse(jsonMessage.getJsDataURL()));
         appContext.startService(downloadIntent);
         appContext.registerReceiver(
             new AppLinkDownloadReciver(appContext, downloadIntent),
-            new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+            new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));*/
+        Uri url = Uri.parse(jsonMessage.getJsDataURL());
+        DownloadManager.Request request = new DownloadManager.Request(url);
+        String fileName = url.getPathSegments().get(url.getPathSegments().size() - 1);
+        request.setTitle("File: " + fileName);
+        request.setDescription("Inn-App download...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+        Toast.makeText(appContext, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
+        DownloadManager downloadManager = (DownloadManager) appContext.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
         sendMessageToJs(jsonMessage, subscriber.getValue());
         jsonMessage = null;
     }

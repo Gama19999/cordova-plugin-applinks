@@ -20,8 +20,6 @@ import ovh.serial30.cordova.applinks.parser.AppLinkConfigXMLParser;
 import ovh.serial30.cordova.applinks.pojos.AppLinkHost;
 import ovh.serial30.cordova.applinks.pojos.AppLinkPath;
 import ovh.serial30.cordova.applinks.pojos.AppLinkJson;
-import ovh.serial30.cordova.applinks.services.AppLinkDownloadService;
-import ovh.serial30.cordova.applinks.services.AppLinkDownloadReciver;
 
 import java.util.HashMap;
 import java.util.List;
@@ -118,19 +116,13 @@ public class AppLinksPlugin extends CordovaPlugin {
     }
 
     /**
-     * Tries to download the file
+     * Logic behind in-app file download
      * @param subscriber Entry containing JSEventName as key and JSCallback as value
      */
     private void downloadFile(Map.Entry<String, CallbackContext> subscriber) {
-        /*Intent downloadIntent = new Intent(appContext, AppLinkDownloadService.class);
-        downloadIntent.setData(Uri.parse(jsonMessage.getJsDataURL()));
-        appContext.startService(downloadIntent);
-        appContext.registerReceiver(
-            new AppLinkDownloadReciver(appContext, downloadIntent),
-            new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));*/
         Uri url = Uri.parse(jsonMessage.getJsDataURL());
-        DownloadManager.Request request = new DownloadManager.Request(url);
         String fileName = url.getPathSegments().get(url.getPathSegments().size() - 1);
+        DownloadManager.Request request = new DownloadManager.Request(url);
         request.setTitle("File: " + fileName);
         request.setDescription("Inn-App download...");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

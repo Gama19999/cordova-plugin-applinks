@@ -1,4 +1,4 @@
-# Cordova AppLinks Plugin (v1.3.19)
+# Cordova AppLinks Plugin (v1.3.20)
 
 **NOTE:** This is a fork from the cordova plugin "cordova-plugin-deeplinks" which is a fork from the original cordova plugin "cordova-deeplinks" that in turn is a fork from "cordova-universal-links-plugin"
 
@@ -170,29 +170,41 @@ To handle all paths under a given hostname use the following configuration:
 
 ### Event fileDownload
 
-If you need to download a file from inside your app use the custom JS event `fileDownload` to make the plugin handle the download process from the given URL.
-
 > [!TIP]
-> Useful to **download** files with an in-app link directly from a website
+> Useful to handle the **download** of files as an in-app feature.
 
-To achieve this in the `config.xml` file add the `<al-host />` tag and the `name` attribute with the hostname to request the download, furthermore, specify the `fileDownload` **event** attribute on the `<al-path />` tag. Here is the example:
+If you need to download a file from inside your app by clicking on a button or other control, this plugin user the custom JS event `fileDownload` to process the download. 
+
+To achieve this in the `config.xml` file add the `<al-host />` tag with the `name` attribute referring to the hostname which receives the file download request. Then add an `<al-path />` tag to specify the `url` attribute indicating the route to the target file including the file and its extension. **Do not forget** to specify the `fileDownload` `event` attribute on the `<al-path />` tag. Here is the example:
 
 ```xml
 <applink>
     <al-host name="domain-to-request-download.com">
-      <al-path url="/path/to/file/to/download" event="fileDownload" />
+      <al-path url="/path/to/file/to/download.ext" event="fileDownload" />
     </al-host>
 </applinks>
 ```
 
-Then in your `www/js/index.js` file add call the `subscribe` plugin method and bind the `fileDownload` JS event, here is the example:
+Then in your `www/js/index.js` file add call the `subscribe` plugin method and bind the `fileDownload` JS event to do some additional work if needed, here is the example:
+
 ```js
 window.plugins.AppLinks.subscribe('fileDownload', function (eventData) {
   // do some work
   console.log('Trying to download a file from given URL: ' + eventData.url);
 });
 ```
+Inside your app there might be some control to trigger the file download, for example an `<a>` html tag with an `href` attribute. Review the following code as example:
 
+```xml
+<body>
+  <!-- Other html tags -->
+  <a href="https://domain-to-request-download.com/path/to/file/to/download.ext" />
+  <!-- Other html tags -->
+</body>
+```
+So when the user clicks on that link, this plugin will handle the download because that is specified on the `config.xml` file as an `<applink> <al-host> <al-path>` entry filtered by the `fileDownload` custom JS event.
+
+The downloaded file is saved on the top main Downloads folder in Android device. 
 
 
 ### Prevent Android from creating multiple app instances
@@ -262,7 +274,7 @@ window.plugins.AppLinks.unsubscribe('eventName');
 
 
 ### Usage examples
-Now it's time for some examples. In here we are gonna use Android, because it is easier to test (see [testing for Android](#testing-ul-for-android-locally) section). JavaScript side is platform independent, so all the example code below will also work for iOS.
+Now it's time for some examples. In here we are going to use Android, because it is easier to test (see [testing for Android](#testing-ul-for-android-locally) section). JavaScript side is platform independent, so all the example code below will also work for iOS.
 
 1. Create new Cordova application and add Android platform.
 
@@ -290,7 +302,7 @@ Now it's time for some examples. In here we are gonna use Android, because it is
   </applink>
   ```
 
-  - As you can see, we want our application to be launched when user goes to the `news` section of our website and for that we are gonna dispatch different events to understand, what has happened.
+  - As you can see, we want our application to be launched when user goes to the `news` section of our website and for that we are going to dispatch different events to understand, what has happened.
 
 4. Subscribe to `openNewsListPage` and `openNewsDetailedPage` events. For that open `www/js/index.js` and make it look like that:
 
@@ -360,7 +372,7 @@ Now it's time for some examples. In here we are gonna use Android, because it is
   adb shell am start -W -a android.intent.action.VIEW -d "http://myhost.com/news/ul-plugin-released.html" com.example.applinks
   ```
 
-  - Application will be launched and you will see in JS console:
+  - Application will be launched, and you will see in JS console:
 
   ```
   Showing to user details page: /news/ul-plugin-released.html
@@ -510,7 +522,7 @@ Here's a very simplified example of how the website `www.example.com` could use 
 
 4. The user clicks a link to `https://www.example.com/puppies` on the device. This link could be anywhere: in a browser, in a Google Search Appliance suggestion, or anywhere else. Android forwards the intent to the `example.com` app.
 
-5. The `example.com` app receives the intent and chooses to handle it, opening the puppies page in the app. If for some reason the app had declined to handle the link, or if the app were not on the device, then the link will be send to the next default intent handler, matching that intent pattern (i.e. browser).
+5. The `example.com` app receives the intent and chooses to handle it, opening the puppies page in the app. If for some reason the app had declined to handle the link, or if the app were not on the device, then the link will be sent to the next default intent handler, matching that intent pattern (i.e. browser).
 
 ### Testing AppLinks for Android locally
 
@@ -563,7 +575,7 @@ Let's create new application to play with:
   adb shell am start -W -a android.intent.action.VIEW -d "http://myhost.com/any/path" com.example.applinks
   ```
 
-  - As a result, your application will be launched and you will see in console:
+  - As a result, your application will be launched, and you will see in console:
 
   ```
   Starting: Intent { act=android.intent.action.VIEW dat=http://myhost.com/any/path pkg=com.example.applinks }

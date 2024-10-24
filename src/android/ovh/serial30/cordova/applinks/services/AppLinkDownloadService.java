@@ -20,7 +20,8 @@ import ovh.serial30.cordova.applinks.constants.Const;
  * @author Gamaliel Rios
  */
 public class AppLinkDownloadService extends Service {
-    public boolean serviceStopped;
+    public boolean isServiceRunning;
+    public boolean isDownloading;
 
     public class AppLinkDownloadServiceBinder extends Binder {
         public AppLinkDownloadService getService() {
@@ -36,21 +37,22 @@ public class AppLinkDownloadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        serviceStopped = false;
+        isServiceRunning = true;
+        isDownloading = false;
         Toast.makeText(this, Const.ToastMSG.DOWNLOAD_SERIVCE_CREATED, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, Const.ToastMSG.DOWNLOAD_START, Toast.LENGTH_SHORT).show();
-        if (serviceStopped) downloadFile(intent.getData());
+        if (isServiceRunning && !isDownloading) downloadFile(intent.getData());
         return START_NOT_STICKY; // We want this service to continue running until it is explicitly stopped, so return 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        serviceStopped = true;
+        isServiceRunning = true;
     }
 
     /**
@@ -58,6 +60,7 @@ public class AppLinkDownloadService extends Service {
      * @param url URL to make the download request
      */
     private void downloadFile(Uri url) {
+        isDownloading = true;
         DownloadManager.Request request = new DownloadManager.Request(url);
         String fileName = url.getPathSegments().get(url.getPathSegments().size() - 1);
         request.setTitle("File: " + fileName);
@@ -77,6 +80,7 @@ public class AppLinkDownloadService extends Service {
         public void onReceive(Context context, Intent intent) {
             if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
                 AppLinkDownloadService.this.stopSelf();
+                AppLinkDownloadService.this.isDownloading = false;
                 Toast.makeText(context, Const.ToastMSG.DOWNLOAD_COMPLETED, Toast.LENGTH_SHORT).show();
             }
         }

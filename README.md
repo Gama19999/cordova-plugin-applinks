@@ -1,4 +1,4 @@
-# Cordova AppLinks Plugin (v1.3.8)
+# Cordova AppLinks Plugin (v1.3.9)
 
 **NOTE:** This is a fork from the cordova plugin "cordova-plugin-deeplinks" which is a fork from the original cordova plugin "cordova-deeplinks" that in turn is a fork from "cordova-universal-links-plugin"
 

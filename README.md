@@ -1,4 +1,4 @@
-# Cordova AppLinks Plugin (v1.3.0)
+# Cordova AppLinks Plugin (v1.3.1)
 
 **NOTE:** This is a fork from the cordova plugin "cordova-plugin-deeplinks" which is a fork from the original cordova plugin "cordova-deeplinks" that in turn is a fork from "cordova-universal-links-plugin"
 
@@ -172,7 +172,7 @@ To handle all paths under a given hostname use the following configuration:
 
 If you need to download a file from inside your app use the custom JS event `fileDownload` to make the plugin handle the download process from the given URL.
 
-[!TIP]
+> [!TIP]
 > Useful to **download** files with an in-app link directly from a website
 
 To achieve this in the `config.xml` file add the `<al-host />` tag and the `name` attribute with the hostname to request the download, furthermore, specify the `fileDownload` **event** attribute on the `<al-path />` tag. Here is the example:
